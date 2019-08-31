@@ -5,9 +5,23 @@ import Contact from '../ContactComponent/ContactComponent';
 
 class Contacts extends React.Component {
     state = {
-        contacts: this.props.model
+        contacts: [
+            {
+                id: 1,
+                name: "John Smith"
+            },
+            {
+                id: 2,
+                name: "Mary Watson"
+            },
+            {
+                id: 3
+            }
+        ]
     };
+
     getNewContactId = () => this.state.contacts.length + 1;
+
     onAddingItem = () => {
         const newItem = {
             id: this.getNewContactId(),
@@ -30,14 +44,13 @@ class Contacts extends React.Component {
         const contacts = this.state.contacts;
         const anyContactExists = contacts.length > 0;
 
-        const renderAddButton = () => {
-            return (
-                <button className="btn btn-primary btn-sm mb-2" onClick={this.onAddingItem}>
-                    <FontAwesomeIcon icon={faPlus} className="mr-1" />
-                    <span>New Contact</span>
-                </button>
-            );
-        }
+        const renderAddContactButton = () => (
+            <button className="btn btn-primary btn-sm mb-2" onClick={this.onAddingItem}>
+                <FontAwesomeIcon icon={faPlus} className="mr-1" />
+                <span>New Contact</span>
+            </button>
+        );
+
         const renderTableHeading = () => {
             return (
                 <div className="row">
@@ -47,23 +60,26 @@ class Contacts extends React.Component {
                 </div>
             );
         }
-        const renderTotalRecords = () => (<h5>Total Items: {contacts.length}</h5>);
-        const renderRows = () => contacts.map((contact, index) => <Contact key={index} model={contact} onItemRemoved={this.onItemRemoved} />);
 
-        let viewModel = [];
-        viewModel.push(renderAddButton());
-        if (contacts) {
-            if (anyContactExists) {
-                viewModel.push(renderTableHeading());
-                viewModel.push(renderRows());
-            }
-            viewModel.push(renderTotalRecords());
-        }
-        else {
-            viewModel.push(<span className="text text-danger">Model is undefined!</span>);
-        }
+        const renderRows = () => contacts.map(contact => <Contact key={contact.id} model={contact} onItemRemoved={this.onItemRemoved} />);
 
-        return viewModel;
+        const renderTotalRecordsContainer = () => (<h5 className="mt-2">Total Items: {contacts.length}</h5>);
+
+        const renderUndefinedModel = () => (<span className="text text-danger">Model is undefined!</span>);
+
+        const renderTrace = () => contacts.map(contact => <h5 key={contact.id}>{contact.id} - {contact.name}</h5>);
+
+        return (
+            <>
+                {renderAddContactButton()}
+                {contacts && anyContactExists && renderTableHeading()}
+                {contacts && anyContactExists && renderRows()}
+                {contacts && renderTotalRecordsContainer()}
+                {!contacts && renderUndefinedModel()}
+                <hr />
+                {contacts && renderTrace()}
+            </>
+        );
     }
 }
 
