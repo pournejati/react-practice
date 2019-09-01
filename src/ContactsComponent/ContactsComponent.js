@@ -20,9 +20,9 @@ class Contacts extends React.Component {
         ]
     };
 
-    getNewContactId = () => this.state.contacts.length + 1;
+    getNewContactId = () => Math.max(...this.state.contacts.map(contact => contact.id)) + 1;
 
-    onAddingItem = () => {
+    onItemAdded = () => {
         const newItem = {
             id: this.getNewContactId(),
             name: `Contact ${this.getNewContactId()}`
@@ -31,6 +31,15 @@ class Contacts extends React.Component {
             contacts: [...prevState.contacts, newItem]
         }));
     };
+
+    onItemUpdated = (contact) => {
+        const contacts = [...this.state.contacts];
+        const currentContact = contacts.filter(x => x.id === contact.id);
+        contacts[contacts.indexOf(currentContact)] = contact;
+        this.setState({
+            contacts: contacts
+        });
+    }
 
     onItemRemoved = (contact) => {
         const contacts = [...this.state.contacts];
@@ -45,7 +54,7 @@ class Contacts extends React.Component {
         const anyContactExists = contacts.length > 0;
 
         const renderAddContactButton = () => (
-            <button className="btn btn-primary btn-sm mb-2" onClick={this.onAddingItem}>
+            <button className="btn btn-primary btn-sm mb-2" onClick={this.onItemAdded}>
                 <FontAwesomeIcon icon={faPlus} className="mr-1" />
                 <span>New Contact</span>
             </button>
@@ -61,7 +70,11 @@ class Contacts extends React.Component {
             );
         }
 
-        const renderRows = () => contacts.map(contact => <Contact key={contact.id} model={contact} onItemRemoved={this.onItemRemoved} />);
+        const renderRows = () => contacts.map(contact =>
+            <Contact key={contact.id}
+                model={contact}
+                onItemUpdated={this.onItemUpdated}
+                onItemRemoved={this.onItemRemoved} />);
 
         const renderTotalRecordsContainer = () => (<h5 className="mt-2">Total Items: {contacts.length}</h5>);
 
