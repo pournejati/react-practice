@@ -1,9 +1,9 @@
 import React from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import Contact from '../ContactComponent/ContactComponent';
+import Contact from '../contact/Contact';
 
-class Contacts extends React.Component {
+class ContactList extends React.Component {
     state = {
         contacts: [
             {
@@ -96,4 +96,4 @@ class Contacts extends React.Component {
     }
 }
 
-export default Contacts;
+export default ContactList;
