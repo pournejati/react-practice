@@ -2,7 +2,7 @@ import React from 'react';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencilAlt, faSave, faTrash } from '@fortawesome/free-solid-svg-icons'
 
-class Contact extends React.Component {
+class ContactRow extends React.Component {
     state = {
         editMode: false
     };
@@ -21,7 +21,7 @@ class Contact extends React.Component {
 
     renderContact = (contact) => (
         <div className="row">
-            <div className="col" style={{ maxWidth: "100px" }}>{contact.id}</div>
+            <div className="col" style={{ maxWidth: "400px" }}>{contact.id}</div>
             <div className="col">
                 {this.state.editMode
                     ? <input type="text" name="name" className="form-control form-control-sm" value={contact.name} onChange={this.onItemUpdated} />
@@ -44,4 +44,4 @@ class Contact extends React.Component {
     }
 }
 
-export default Contact;
+export default ContactRow;
