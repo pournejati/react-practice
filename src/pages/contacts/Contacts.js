@@ -1,22 +1,13 @@
 import React from 'react';
 import uuid from 'uuid/v4';
+import defaultContacts from '../../services/Data';
 import ContactsTable from './contactsTable/ContactsTable';
 import ContactsList from './contactList/ContactList';
-
 import AddButton from './addButton/AddButton';
 
 class ContactsPage extends React.Component {
     state = {
-        contacts: [
-            {
-                id: uuid(),
-                name: "John Smith"
-            },
-            {
-                id: uuid(),
-                name: "Mary Watson"
-            }
-        ]
+        contacts: [...defaultContacts]
     };
 
     onItemAdded = () => {
