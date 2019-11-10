@@ -1,6 +1,6 @@
 import uuid from 'uuid/v4';
 
-const contacts = [
+const contactList = [
     {
         id: uuid(),
         name: "John Smith"
@@ -11,4 +11,4 @@ const contacts = [
     }
 ]
 
-export default contacts;
+export default contactList;

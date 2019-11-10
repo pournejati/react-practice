@@ -1,54 +1,40 @@
-import React from 'react';
+import React, { useState } from 'react';
 import uuid from 'uuid/v4';
-import defaultContacts from '../../services/Data';
 import ContactsTable from './contactsTable/ContactsTable';
 import ContactsList from './contactList/ContactList';
 import AddButton from './addButton/AddButton';
 
-class ContactsPage extends React.Component {
-    state = {
-        contacts: [...defaultContacts]
-    };
+import contactList from '../../services/Data'
 
-    onItemAdded = () => {
+function ContactsPage() {
+    const [contacts, setContacts] = useState(contactList); 
+    
+    const onItemAdded = () => {
         const newItem = {
             id: uuid(),
             name: `New Contact`
         };
-        this.setState(prevState => ({
-            contacts: [...prevState.contacts, newItem]
-        }));
+        setContacts([...contacts, newItem]);
     };
 
-    onItemUpdated = (contact) => {
-        const contacts = [...this.state.contacts];
-        const currentContact = contacts.filter(x => x.id === contact.id);
-        contacts[contacts.indexOf(currentContact)] = contact;
-        this.setState({
-            contacts: contacts
-        });
+    const onItemUpdated = (contact) => {
+        setContacts([...contacts]);
     }
 
-    onItemRemoved = (contact) => {
-        const contacts = [...this.state.contacts];
+    const onItemRemoved = (contact) => {
         contacts.splice(contacts.indexOf(contact), 1);
-        this.setState({
-            contacts: contacts
-        });
+        setContacts([...contacts]);
     };
 
-    render() {
-        const contacts = this.state.contacts;
-        return (
-            <>
-                <AddButton onItemAdded={this.onItemAdded} />
-                <ContactsTable contacts={this.state.contacts} onItemUpdated={this.onItemUpdated} onItemRemoved={this.onItemRemoved} />
-                <h5 className="mt-2">Total Items: {contacts ? contacts.length : 0}</h5>
-                <hr />
-                <ContactsList contacts={this.state.contacts} />
-            </>
-        );
-    }
+    return (
+        <>
+            <AddButton onItemAdded={onItemAdded} />
+            <ContactsTable contacts={contacts} onItemUpdated={onItemUpdated} onItemRemoved={onItemRemoved} />
+            <h5 className="mt-2">Total Items: {contacts ? contacts.length : 0}</h5>
+            <hr />
+            <ContactsList contacts={contacts} />
+        </>
+    );
 }
 
 export default ContactsPage;

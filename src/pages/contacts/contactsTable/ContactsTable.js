@@ -1,8 +1,8 @@
 import React from 'react';
 import ContactRow from '../contactRow/ContactRow';
 
-class ContactsTable extends React.Component {
-    renderTableHeading = () => {
+const ContactsTable = (props) => {
+    const renderTableHeading = () => {
         return (
             <div className="row">
                 <div className="col" style={{ maxWidth: "400px" }}>
@@ -16,17 +16,15 @@ class ContactsTable extends React.Component {
         );
     }
 
-    render() {
-        return <>
-            {this.renderTableHeading()}
-            {this.props.contacts.map(contact =>
-                <ContactRow key={contact.id}
-                    model={contact}
-                    onItemUpdated={this.props.onItemUpdated}
-                    onItemRemoved={this.props.onItemRemoved} />
-            )}
-        </>;
-    }
+    return <>
+        {renderTableHeading()}
+        {props.contacts && props.contacts.map(contact =>
+            <ContactRow key={contact.id}
+                model={contact}
+                onItemUpdated={props.onItemUpdated}
+                onItemRemoved={props.onItemRemoved} />
+        )}
+    </>;
 }
 
 export default ContactsTable;
